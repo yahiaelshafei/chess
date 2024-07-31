@@ -1,19 +1,16 @@
-
-# two player chess in python with Pygame!
-# part one, set up variables images and game loop
-
 import pygame
-
 pygame.init()
+
 WIDTH = 1000
-HEIGHT = 900
+HEIGHT = 800
 screen = pygame.display.set_mode([WIDTH, HEIGHT])
-pygame.display.set_caption('Two-Player Pygame Chess!')
+pygame.display.set_caption('Chess!')
 font = pygame.font.Font('freesansbold.ttf', 20)
 medium_font = pygame.font.Font('freesansbold.ttf', 40)
 big_font = pygame.font.Font('freesansbold.ttf', 50)
 timer = pygame.time.Clock()
 fps = 60
+
 # game variables and images
 white_pieces = ['rook', 'knight', 'bishop', 'king', 'queen', 'bishop', 'knight', 'rook',
                 'pawn', 'pawn', 'pawn', 'pawn', 'pawn', 'pawn', 'pawn', 'pawn']
@@ -25,10 +22,12 @@ black_locations = [(0, 7), (1, 7), (2, 7), (3, 7), (4, 7), (5, 7), (6, 7), (7, 7
                    (0, 6), (1, 6), (2, 6), (3, 6), (4, 6), (5, 6), (6, 6), (7, 6)]
 captured_pieces_white = []
 captured_pieces_black = []
+
 # 0 - whites turn no selection: 1-whites turn piece selected: 2- black turn no selection, 3 - black turn piece selected
 turn_step = 0
 selection = 100
 valid_moves = []
+
 # load in game piece images (queen, king, rook, bishop, knight, pawn) x 2
 black_queen = pygame.image.load('assets/images/black queen.png')
 black_queen = pygame.transform.scale(black_queen, (80, 80))
@@ -88,16 +87,12 @@ def draw_board():
             pygame.draw.rect(screen, 'light gray', [600 - (column * 200), row * 100, 100, 100])
         else:
             pygame.draw.rect(screen, 'light gray', [700 - (column * 200), row * 100, 100, 100])
-        pygame.draw.rect(screen, 'gray', [0, 800, WIDTH, 100])
-        pygame.draw.rect(screen, 'gold', [0, 800, WIDTH, 100], 5)
+        pygame.draw.rect(screen, 'gold', [800, 700, WIDTH, 100], 5)
         pygame.draw.rect(screen, 'gold', [800, 0, 200, HEIGHT], 5)
-        status_text = ['White: Select a Piece to Move!', 'White: Select a Destination!',
-                       'Black: Select a Piece to Move!', 'Black: Select a Destination!']
-        screen.blit(big_font.render(status_text[turn_step], True, 'black'), (20, 820))
         for i in range(9):
             pygame.draw.line(screen, 'black', (0, 100 * i), (800, 100 * i), 2)
             pygame.draw.line(screen, 'black', (100 * i, 0), (100 * i, 800), 2)
-        screen.blit(medium_font.render('FORFEIT', True, 'black'), (810, 830))
+        screen.blit(medium_font.render('FORFEIT', True, 'black'), (810, 730))
 
 
 # draw pieces onto board
@@ -380,7 +375,7 @@ while run:
             y_coord = event.pos[1] // 100
             click_coords = (x_coord, y_coord)
             if turn_step <= 1:
-                if click_coords == (8, 8) or click_coords == (9, 8):
+                if click_coords == (8, 7) or click_coords == (9, 7):
                     winner = 'black'
                 if click_coords in white_locations:
                     selection = white_locations.index(click_coords)
@@ -401,7 +396,7 @@ while run:
                     selection = 100
                     valid_moves = []
             if turn_step > 1:
-                if click_coords == (8, 8) or click_coords == (9, 8):
+                if click_coords == (8, 7) or click_coords == (9, 7):
                     winner = 'white'
                 if click_coords in black_locations:
                     selection = black_locations.index(click_coords)
